@@ -15,9 +15,10 @@ jobs:
   bump:
     permissions:
       contents: write
-    uses: koki-develop/bump-semver-action@v1
-    with:
-      level: patch # major, minor, patch
+    steps:
+      - uses: koki-develop/bump-semver-action@v1
+        with:
+          level: patch # major, minor, patch
 ```
 
 ## LICENSE
