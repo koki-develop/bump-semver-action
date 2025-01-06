@@ -6,7 +6,7 @@ branding:
   color: green
 
 inputs:
-  current_version:
+  current-version:
     description: The current version. If not provided, the action will use the latest version in the repository.
   level:
     description: The level of the bump. (major|minor|patch)
@@ -19,7 +19,7 @@ inputs:
     default: ${{ github.token }}
 
 outputs:
-  new_version:
+  new-version:
     description: The new version.
 
 runs:

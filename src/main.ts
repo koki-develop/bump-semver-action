@@ -6,7 +6,7 @@ import { bumpSemver, isValidBumpLevel } from "./util";
 export const main = async () => {
   try {
     const inputs = {
-      current_version: core.getInput("current_version"),
+      currentVersion: core.getInput("current-version"),
       level: core.getInput("level", { required: true }),
       force: core.getInput("force") === "true",
     } as const;
@@ -22,7 +22,7 @@ export const main = async () => {
     });
 
     const currentVersion = await (async () => {
-      if (inputs.current_version) return inputs.current_version;
+      if (inputs.currentVersion) return inputs.currentVersion;
 
       core.info("Fetching the current version from GitHub...");
       const currentVersion = await github.getLatestVersion();
@@ -49,7 +49,7 @@ export const main = async () => {
       core.info(`Tag ${newVersion} created`);
     }
 
-    core.setOutput("new_version", newVersion);
+    core.setOutput("new-version", newVersion);
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
