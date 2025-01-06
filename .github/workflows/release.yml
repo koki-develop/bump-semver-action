@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      current_version:
+        description: The current version. If not provided, the action will use the latest version in the repository.
+        type: string
+      level:
+        type: choice
+        description: The level of the bump.
+        options:
+          - patch
+          - minor
+          - major
+      force:
+        type: boolean
+        description: Whether to force the tag creation.
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          current_version: ${{ inputs.current_version }}
+          level: ${{ inputs.level }}
+          force: ${{ inputs.force }}
