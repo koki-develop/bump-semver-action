@@ -4,7 +4,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/koki-develop/bump-semver-action/ci.yml?branch=main&logo=github&style=flat&label=ci)](https://github.com/koki-develop/bump-semver-action/actions/workflows/ci.yml)
 [![Build](https://img.shields.io/github/actions/workflow/status/koki-develop/bump-semver-action/build.yml?branch=main&logo=github&style=flat&label=build)](https://github.com/koki-develop/bump-semver-action/actions/workflows/build.yml)
 
-Bump a semver version.
+Bump a semantic version.
 
 ## Usage
 
