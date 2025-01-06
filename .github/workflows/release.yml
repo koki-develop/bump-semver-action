@@ -3,9 +3,6 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      current-version:
-        description: The current version. If not provided, the action will use the latest version in the repository.
-        type: string
       level:
         type: choice
         description: The level of the bump.
@@ -25,7 +22,6 @@ jobs:
       - uses: ./
         id: bump
         with:
-          current-version: ${{ inputs.current-version }}
           level: ${{ inputs.level }}
 
       - uses: koki-develop/major-version-sync@v1
