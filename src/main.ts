@@ -49,7 +49,6 @@ export const main = async () => {
 
       if (inputs.initialVersion) {
         validateSemver(inputs.initialVersion);
-        core.setOutput("current-version", inputs.initialVersion);
         return inputs.initialVersion;
       }
 
