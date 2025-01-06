@@ -17,3 +17,9 @@ export const highestSemver = (versions: string[]) => {
     "*",
   );
 };
+
+export const validateSemver = (version: string) => {
+  if (!semver.valid(version)) {
+    throw new Error(`version must be a valid semver: ${version}`);
+  }
+};
