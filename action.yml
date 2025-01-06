@@ -14,6 +14,9 @@ inputs:
   force:
     description: Whether to force the tag creation.
     default: 'false'
+  initial-version:
+    description: The version to be pushed when no tags exist yet.
+    default: v0.0.1
   token:
     description: The GitHub token.
     default: ${{ github.token }}

@@ -6,9 +6,14 @@ import { bumpSemver, isValidBumpLevel } from "./util";
 export const main = async () => {
   try {
     const inputs = {
-      currentVersion: core.getInput("current-version"),
-      level: core.getInput("level", { required: true }),
-      force: core.getInput("force") === "true",
+      currentVersion: core.getInput("current-version", {
+        trimWhitespace: true,
+      }),
+      level: core.getInput("level", { required: true, trimWhitespace: true }),
+      force: core.getInput("force", { trimWhitespace: true }) === "true",
+      initialVersion: core.getInput("initial-version", {
+        trimWhitespace: true,
+      }),
     } as const;
 
     if (!isValidBumpLevel(inputs.level)) {
@@ -26,7 +31,10 @@ export const main = async () => {
 
       core.info("Fetching the current version from GitHub...");
       const currentVersion = await github.getLatestVersion();
-      if (!currentVersion) throw new Error("failed to get current version");
+      if (!currentVersion) {
+        if (inputs.initialVersion) return inputs.initialVersion;
+        throw new Error("failed to get current version");
+      }
       core.info(`The current version is ${currentVersion}`);
 
       return currentVersion;
