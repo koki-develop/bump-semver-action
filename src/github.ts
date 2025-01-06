@@ -19,9 +19,10 @@ export class GitHub {
 
   async getLatestVersion(): Promise<string | null> {
     const release = await this._getLatestRelease();
-    if (release) {
-      return release.tag_name;
-    }
+    if (release) return release.tag_name;
+
+    const tag = await this._getLatestTag();
+    if (tag) return tag;
 
     return null;
   }
@@ -63,7 +64,7 @@ export class GitHub {
       });
   }
 
-  async _getLatestRelease() {
+  private async _getLatestRelease() {
     return await this.octokit.rest.repos
       .getLatestRelease({
         owner: this.owner,
@@ -78,7 +79,7 @@ export class GitHub {
       });
   }
 
-  async _getLatestTag(): Promise<string | null> {
+  private async _getLatestTag(): Promise<string | null> {
     const data = await this.octokit.paginate(
       this.octokit.rest.git.listMatchingRefs,
       {
