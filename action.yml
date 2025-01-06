@@ -11,6 +11,9 @@ inputs:
   level:
     description: The level of the bump. (major|minor|patch)
     required: true
+  token:
+    description: The GitHub token.
+    default: ${{ github.token }}
 
 outputs:
   new_version:
