@@ -23,13 +23,17 @@ export const main = async () => {
 
     const currentVersion = await (async () => {
       if (inputs.current_version) return inputs.current_version;
-      return await github.getLatestVersion();
+
+      core.info("Fetching the current version from GitHub...");
+      const currentVersion = await github.getLatestVersion();
+      if (!currentVersion) throw new Error("failed to get current version");
+      core.info(`The current version is ${currentVersion}`);
+
+      return currentVersion;
     })();
-    if (!currentVersion) {
-      throw new Error("failed to get current version");
-    }
 
     const newVersion = bumpSemver(currentVersion, inputs.level);
+    core.info(`Bumping the version to ${newVersion}`);
 
     const isTagExists = await github.isTagExists(newVersion);
     if (isTagExists) {
@@ -39,8 +43,10 @@ export const main = async () => {
         );
       }
       await github.updateTag({ tag: newVersion, sha: context.sha });
+      core.info(`Tag ${newVersion} updated`);
     } else {
       await github.createTag({ tag: newVersion, sha: context.sha });
+      core.info(`Tag ${newVersion} created`);
     }
 
     core.setOutput("new_version", newVersion);
