@@ -32477,15 +32477,21 @@ const main = async () => {
                 return inputs.currentVersion;
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("Fetching the current version from GitHub...");
             const currentVersion = await github.getLatestVersion();
-            if (!currentVersion) {
-                if (inputs.initialVersion)
-                    return inputs.initialVersion;
-                throw new Error("failed to get current version");
+            if (currentVersion) {
+                _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`The current version is ${currentVersion}`);
             }
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`The current version is ${currentVersion}`);
+            else {
+                _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("No tags found.");
+            }
             return currentVersion;
         })();
-        const newVersion = (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .bumpSemver */ .rr)(currentVersion, inputs.level);
+        const newVersion = (() => {
+            if (inputs.initialVersion)
+                return inputs.initialVersion;
+            if (currentVersion)
+                return (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .bumpSemver */ .rr)(currentVersion, inputs.level);
+            throw new Error("failed to get current version");
+        })();
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Bumping the version to ${newVersion}`);
         const isTagExists = await github.isTagExists(newVersion);
         if (isTagExists) {
