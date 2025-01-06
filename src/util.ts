@@ -12,5 +12,8 @@ export const bumpSemver = (version: string, level: BumpLevel) => {
 };
 
 export const highestSemver = (versions: string[]) => {
-  return semver.maxSatisfying(versions, "*");
+  return semver.maxSatisfying(
+    versions.filter((v) => !semver.prerelease(v)),
+    "*",
+  );
 };
