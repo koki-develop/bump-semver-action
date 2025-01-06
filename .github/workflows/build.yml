@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: bun run build
+
+      - name: Get base ref
+        id: base
+        env:
+          BASE_REF: ${{ github.event_name == 'push' && github.ref_name || github.head_ref }}
+        run: echo "ref=${BASE_REF}" >> $GITHUB_OUTPUT
+
+      - name: Check for changes in ./dist
+        id: check
+        run: |
+          git add ./dist
+          if ! git diff --quiet --exit-code --staged ./dist; then
+            echo "Action is not built"
+            exit 1
+          fi
+
+      - uses: peter-evans/create-pull-request@v7
+        if: ${{ failure() && steps.check.outcome == 'failure' }}
+        with:
+          token: ${{ github.token }}
+          title: Build ${{ steps.base.outputs.ref }}
+          base: ${{ steps.base.outputs.ref }}
+          branch: build/${{ steps.base.outputs.ref }}
+          commit-message: Build ${{ steps.base.outputs.ref }}
+          body: |
+            This PR was automatically created by the Build workflow.
+            It contains the changes in the ./dist directory.
