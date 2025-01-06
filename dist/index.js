@@ -32491,7 +32491,7 @@ const main = async () => {
             await github.createTag({ tag: newVersion, sha: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha });
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Tag ${newVersion} created`);
         }
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("new_version", newVersion);
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("new-version", newVersion);
     }
     catch (error) {
         if (error instanceof Error) {
