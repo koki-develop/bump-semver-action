@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { context } from "@actions/github";
 import { GitHub } from "./github";
-import { bumpSemver, isValidBumpLevel } from "./util";
+import { bumpSemver, isValidBumpLevel, validateSemver } from "./util";
 
 export const main = async () => {
   try {
@@ -33,17 +33,25 @@ export const main = async () => {
       const currentVersion = await github.getLatestVersion();
       if (currentVersion) {
         core.info(`The current version is ${currentVersion}`);
-      } else {
-        core.info("No tags found.");
+        return currentVersion;
       }
 
-      return currentVersion;
+      core.info("No tags found.");
+      return null;
     })();
 
     const newVersion = (() => {
-      if (inputs.initialVersion) return inputs.initialVersion;
-      if (currentVersion) return bumpSemver(currentVersion, inputs.level);
-      throw new Error("failed to get current version");
+      if (currentVersion) {
+        validateSemver(currentVersion);
+        return bumpSemver(currentVersion, inputs.level);
+      }
+
+      if (inputs.initialVersion) {
+        validateSemver(inputs.initialVersion);
+        return inputs.initialVersion;
+      }
+
+      throw new Error("No current version or initial version provided");
     })();
     core.info(`Bumping the version to ${newVersion}`);
 
