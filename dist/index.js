@@ -32492,7 +32492,6 @@ const main = async () => {
             }
             if (inputs.initialVersion) {
                 (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .validateSemver */ .Xs)(inputs.initialVersion);
-                _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("current-version", inputs.initialVersion);
                 return inputs.initialVersion;
             }
             throw new Error("No current version or initial version provided");
