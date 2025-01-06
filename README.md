@@ -1,4 +1,4 @@
-# Bump Semver Action
+# Bump Semantic Version Action
 
 [![GitHub Release](https://img.shields.io/github/v/release/koki-develop/bump-semver-action)](https://github.com/koki-develop/bump-semver-action/releases/latest)
 [![CI](https://img.shields.io/github/actions/workflow/status/koki-develop/bump-semver-action/ci.yml?branch=main&logo=github&style=flat&label=ci)](https://github.com/koki-develop/bump-semver-action/actions/workflows/ci.yml)

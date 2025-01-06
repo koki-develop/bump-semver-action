@@ -1,5 +1,5 @@
-name: Bump Semver Action
-description: Bump a semver version.
+name: Bump Semantic Version Action
+description: Bump a semantic version.
 
 branding:
   icon: tag
