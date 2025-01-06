@@ -32366,9 +32366,11 @@ class GitHub {
     }
     async getLatestVersion() {
         const release = await this._getLatestRelease();
-        if (release) {
+        if (release)
             return release.tag_name;
-        }
+        const tag = await this._getLatestTag();
+        if (tag)
+            return tag;
         return null;
     }
     async createTag(params) {
