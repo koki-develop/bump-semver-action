@@ -33,6 +33,7 @@ export const main = async () => {
       const currentVersion = await github.getLatestVersion();
       if (currentVersion) {
         core.info(`The current version is ${currentVersion}`);
+        core.setOutput("current-version", currentVersion);
         return currentVersion;
       }
 
@@ -43,7 +44,6 @@ export const main = async () => {
     const newVersion = (() => {
       if (currentVersion) {
         validateSemver(currentVersion);
-        core.setOutput("current-version", currentVersion);
         return bumpSemver(currentVersion, inputs.level);
       }
 
@@ -55,6 +55,7 @@ export const main = async () => {
       throw new Error("No current version or initial version provided");
     })();
     core.info(`Bumping the version to ${newVersion}`);
+    core.setOutput("new-version", newVersion);
 
     const isTagExists = await github.isTagExists(newVersion);
     if (isTagExists) {
@@ -69,8 +70,6 @@ export const main = async () => {
       await github.createTag({ tag: newVersion, sha: context.sha });
       core.info(`Tag ${newVersion} created`);
     }
-
-    core.setOutput("new-version", newVersion);
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
