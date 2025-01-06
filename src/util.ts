@@ -10,3 +10,7 @@ export const bumpSemver = (version: string, level: BumpLevel) => {
   const prefix = version.startsWith("v") ? "v" : "";
   return prefix + semver.inc(version, level);
 };
+
+export const highestSemver = (versions: string[]) => {
+  return semver.maxSatisfying(versions, "*");
+};
