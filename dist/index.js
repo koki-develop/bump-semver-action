@@ -32455,9 +32455,14 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 const main = async () => {
     try {
         const inputs = {
-            currentVersion: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("current-version"),
-            level: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("level", { required: true }),
-            force: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("force") === "true",
+            currentVersion: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("current-version", {
+                trimWhitespace: true,
+            }),
+            level: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("level", { required: true, trimWhitespace: true }),
+            force: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("force", { trimWhitespace: true }) === "true",
+            initialVersion: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("initial-version", {
+                trimWhitespace: true,
+            }),
         };
         if (!(0,_util__WEBPACK_IMPORTED_MODULE_3__/* .isValidBumpLevel */ .Tv)(inputs.level)) {
             throw new Error(`invalid level: ${inputs.level}`);
@@ -32472,8 +32477,11 @@ const main = async () => {
                 return inputs.currentVersion;
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("Fetching the current version from GitHub...");
             const currentVersion = await github.getLatestVersion();
-            if (!currentVersion)
+            if (!currentVersion) {
+                if (inputs.initialVersion)
+                    return inputs.initialVersion;
                 throw new Error("failed to get current version");
+            }
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`The current version is ${currentVersion}`);
             return currentVersion;
         })();
