@@ -3,7 +3,7 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      current_version:
+      current-version:
         description: The current version. If not provided, the action will use the latest version in the repository.
         type: string
       level:
@@ -26,7 +26,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./
+        id: bump
         with:
-          current_version: ${{ inputs.current_version }}
+          current-version: ${{ inputs.current-version }}
           level: ${{ inputs.level }}
           force: ${{ inputs.force }}
+
+      - uses: koki-develop/major-version-sync@v1
+        with:
+          version: ${{ steps.bump.outputs.new-version }}
+          token: ${{ github.token }}
