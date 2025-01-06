@@ -43,11 +43,13 @@ export const main = async () => {
     const newVersion = (() => {
       if (currentVersion) {
         validateSemver(currentVersion);
+        core.setOutput("current-version", currentVersion);
         return bumpSemver(currentVersion, inputs.level);
       }
 
       if (inputs.initialVersion) {
         validateSemver(inputs.initialVersion);
+        core.setOutput("current-version", inputs.initialVersion);
         return inputs.initialVersion;
       }
 

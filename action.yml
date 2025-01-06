@@ -22,6 +22,8 @@ inputs:
     default: ${{ github.token }}
 
 outputs:
+  current-version:
+    description: The current version.
   new-version:
     description: The new version.
 
