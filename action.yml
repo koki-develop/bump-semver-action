@@ -1,20 +1,20 @@
-name: Hello World
-description: Greet someone and record the time
+name: Bump Semver Action
+description: Bump a semver version.
 
 branding:
-  icon: send
-  color: white
+  icon: tag
+  color: green
 
 inputs:
-  message:
-    description: |-
-      The message to echo.
-    required: false
-    default: "Hello, world!"
+  current_version:
+    description: The current version. If not provided, the action will use the latest version in the repository.
+  level:
+    description: The level of the bump. (major|minor|patch)
+    required: true
 
 outputs:
-  message:
-    description: The message that was echoed.
+  new_version:
+    description: The new version.
 
 runs:
   using: node20
