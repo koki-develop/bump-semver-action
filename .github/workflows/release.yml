@@ -29,6 +29,13 @@ jobs:
           version: ${{ steps.bump.outputs.new-version }}
           token: ${{ github.token }}
 
-      - uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.bump.outputs.new-version }}
+      - name: Create release
+        env:
+          CURRENT_VERSION: ${{ steps.bump.outputs.current-version }}
+          NEW_VERSION: ${{ steps.bump.outputs.new-version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${NEW_VERSION}" \
+            --title "${NEW_VERSION}" \
+            --generate-notes \
+            --notes-start-tag "${CURRENT_VERSION}"
