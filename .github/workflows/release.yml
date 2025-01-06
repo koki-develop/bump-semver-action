@@ -13,10 +13,6 @@ on:
           - patch
           - minor
           - major
-      force:
-        type: boolean
-        description: Whether to force the tag creation.
-        default: false
 
 jobs:
   release:
@@ -31,7 +27,6 @@ jobs:
         with:
           current-version: ${{ inputs.current-version }}
           level: ${{ inputs.level }}
-          force: ${{ inputs.force }}
 
       - uses: koki-develop/major-version-sync@v1
         with:
