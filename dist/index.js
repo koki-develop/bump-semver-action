@@ -32455,7 +32455,7 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 const main = async () => {
     try {
         const inputs = {
-            current_version: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("current_version"),
+            currentVersion: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("current-version"),
             level: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("level", { required: true }),
             force: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("force") === "true",
         };
@@ -32468,8 +32468,8 @@ const main = async () => {
             token: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("token"),
         });
         const currentVersion = await (async () => {
-            if (inputs.current_version)
-                return inputs.current_version;
+            if (inputs.currentVersion)
+                return inputs.currentVersion;
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("Fetching the current version from GitHub...");
             const currentVersion = await github.getLatestVersion();
             if (!currentVersion)
