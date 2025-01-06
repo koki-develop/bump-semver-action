@@ -32468,21 +32468,26 @@ const main = async () => {
         const currentVersion = await (async () => {
             if (inputs.current_version)
                 return inputs.current_version;
-            return await github.getLatestVersion();
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("Fetching the current version from GitHub...");
+            const currentVersion = await github.getLatestVersion();
+            if (!currentVersion)
+                throw new Error("failed to get current version");
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`The current version is ${currentVersion}`);
+            return currentVersion;
         })();
-        if (!currentVersion) {
-            throw new Error("failed to get current version");
-        }
         const newVersion = (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .bumpSemver */ .rr)(currentVersion, inputs.level);
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Bumping the version to ${newVersion}`);
         const isTagExists = await github.isTagExists(newVersion);
         if (isTagExists) {
             if (!inputs.force) {
                 throw new Error(`tag ${newVersion} already exists. Set "force: true" to update the tag.`);
             }
             await github.updateTag({ tag: newVersion, sha: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha });
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Tag ${newVersion} updated`);
         }
         else {
             await github.createTag({ tag: newVersion, sha: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha });
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Tag ${newVersion} created`);
         }
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("new_version", newVersion);
     }
