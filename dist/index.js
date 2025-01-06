@@ -32479,18 +32479,21 @@ const main = async () => {
             const currentVersion = await github.getLatestVersion();
             if (currentVersion) {
                 _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`The current version is ${currentVersion}`);
+                return currentVersion;
             }
-            else {
-                _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("No tags found.");
-            }
-            return currentVersion;
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("No tags found.");
+            return null;
         })();
         const newVersion = (() => {
-            if (inputs.initialVersion)
-                return inputs.initialVersion;
-            if (currentVersion)
+            if (currentVersion) {
+                (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .validateSemver */ .Xs)(currentVersion);
                 return (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .bumpSemver */ .rr)(currentVersion, inputs.level);
-            throw new Error("failed to get current version");
+            }
+            if (inputs.initialVersion) {
+                (0,_util__WEBPACK_IMPORTED_MODULE_3__/* .validateSemver */ .Xs)(inputs.initialVersion);
+                return inputs.initialVersion;
+            }
+            throw new Error("No current version or initial version provided");
         })();
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Bumping the version to ${newVersion}`);
         const isTagExists = await github.isTagExists(newVersion);
@@ -32528,6 +32531,7 @@ __webpack_async_result__();
 
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   Tv: () => (/* binding */ isValidBumpLevel),
+/* harmony export */   Xs: () => (/* binding */ validateSemver),
 /* harmony export */   f2: () => (/* binding */ highestSemver),
 /* harmony export */   rr: () => (/* binding */ bumpSemver)
 /* harmony export */ });
@@ -32543,6 +32547,11 @@ const bumpSemver = (version, level) => {
 };
 const highestSemver = (versions) => {
     return semver__WEBPACK_IMPORTED_MODULE_0___default().maxSatisfying(versions.filter((v) => !semver__WEBPACK_IMPORTED_MODULE_0___default().prerelease(v)), "*");
+};
+const validateSemver = (version) => {
+    if (!semver__WEBPACK_IMPORTED_MODULE_0___default().valid(version)) {
+        throw new Error(`version must be a valid semver: ${version}`);
+    }
 };
 
 
