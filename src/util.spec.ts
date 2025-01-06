@@ -1,5 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { bumpSemver } from "./util";
+import { bumpSemver, isValidBumpLevel } from "./util";
+
+describe("isValidBumpLevel", () => {
+  it.each([
+    ["major", true],
+    ["minor", true],
+    ["patch", true],
+    ["invalid", false],
+  ])("isValidBumpLevel(%j) should return %j", (level, expected) => {
+    expect(isValidBumpLevel(level)).toBe(expected);
+  });
+});
 
 describe("bumpSemver", () => {
   it.each([
