@@ -1,11 +1,12 @@
 import { getOctokit } from "@actions/github";
-import semver from "semver";
+import { type SimpleGit, simpleGit } from "simple-git";
 import { highestSemver } from "./util";
 
 export class GitHub {
   private readonly owner: string;
   private readonly repo: string;
   private readonly octokit: ReturnType<typeof getOctokit>;
+  private readonly git: SimpleGit;
 
   constructor(config: {
     owner: string;
@@ -15,6 +16,7 @@ export class GitHub {
     this.owner = config.owner;
     this.repo = config.repo;
     this.octokit = getOctokit(config.token);
+    this.git = simpleGit(process.cwd());
   }
 
   async getLatestVersion(): Promise<string | null> {
@@ -28,6 +30,7 @@ export class GitHub {
   }
 
   async createTag(params: { tag: string; sha: string }): Promise<void> {
+    await this.git.tag([params.tag, params.sha]);
     await this.octokit.rest.git.createRef({
       owner: this.owner,
       repo: this.repo,
@@ -37,6 +40,7 @@ export class GitHub {
   }
 
   async updateTag(params: { tag: string; sha: string }): Promise<void> {
+    await this.git.tag([params.tag, params.sha]);
     await this.octokit.rest.git.updateRef({
       owner: this.owner,
       repo: this.repo,
