@@ -17,13 +17,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: ./
         id: bump
         with:
           level: ${{ inputs.level }}
 
-      - uses: koki-develop/major-version-sync@v1
+      - uses: koki-develop/major-version-sync@b86eb31aef1c06d81f133799b35ace3c80ebdf0a # v1.2.0
         with:
           version: ${{ steps.bump.outputs.new-version }}
           token: ${{ github.token }}
