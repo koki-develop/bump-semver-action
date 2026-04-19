@@ -42,6 +42,7 @@ jobs:
           base: ${{ steps.base.outputs.ref }}
           branch: build/${{ steps.base.outputs.ref }}
           commit-message: Build ${{ steps.base.outputs.ref }}
+          sign-commits: true
           body: |
             This PR was automatically created by the Build workflow.
             It contains the changes in the ./dist directory.
