@@ -18,7 +18,7 @@
     "@actions/core": "1.11.1",
     "@actions/github": "6.0.0",
     "semver": "7.6.3",
-    "simple-git": "3.32.3"
+    "simple-git": "3.36.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
